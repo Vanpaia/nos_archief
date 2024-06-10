@@ -1,0 +1,60 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='main.css') }}">
+{% endblock %}
+
+{% block title %}
+    {% if title %}
+    {{ title }} - NOS Archief</title>
+    {% else %}
+    Welkom in het inofficiele NOS Archief!</title>
+    {% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('main.index') }}">Archief</a></li>
+                    <li><a href="{{ url_for('main.index') }}">Zoeken</a></li>
+                    <li><a href="{{ url_for('main.index') }}">API</a></li>
+                </ul>
+                {% if g.search_form %}
+                <form class="navbar-form navbar-left" method="get" action="{{ url_for('main.index') }}">
+                    <div class="form-group">
+                        {{ g.search_form.q(size=20, class='form-control', placeholder=g.search_form.q.label.text) }}
+                    </div>
+                </form>
+                {% endif %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ url_for('main.index') }}">Over</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {# application content needs to be provided in the app_content block #}
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+    {{ moment.locale(language='en-GB', auto_detect=True) }}
+{% endblock %}
