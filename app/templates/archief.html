@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('static', filename='main.css')}}">
+{% endblock %}
+
+{% block app_content %}
+    <h1><span style="color: #41c1fd;"><strong>NOS Archief</strong></span></h1>
+    <h4 style="text-align: center;">
+        <em>Het toegankelijke archief van publieke nieuwsberichten.</em>
+    </h4>
+    <hr>
+    {{ wtf.quick_form(datepicker) }}
+    <hr>
+    {% if start_date == end_date %}
+        <h5>NOS nieuwsberichten voor {{ start_date }}</h5>
+    {% else %}
+        <h5>NOS nieuwsberichten van {{ start_date }} tot {{ end_date }}</h5>
+    {% endif %}
+    <table>
+        <tr>
+            <td>Datum</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Categorie</td>
+            <td></td>
+            <td>Titel</td>
+        </tr>
+        {% for article in query %}
+            <tr>
+                <th>{{ article.to_date() }}</th>
+                <th></th>
+                <th>{{ article.to_time() }}</th>
+                <th></th>
+                <th>{% for x in article.categories %} {{ x.title }} {% endfor %}</th>
+                <th></th>
+                <th><a href={{ article.link }}>{{ article.title }}</a></th>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,200 @@
+[
+   {
+      "feed": "https://feeds.nos.nl/nosnieuwsalgemeen",
+      "name": "nieuws_algemeen",
+      "category": "algemeen",
+      "super_category": "nieuws",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nosnieuwsbinnenland",
+      "name": "nieuws_binnenland",
+      "category": "binnenland",
+      "super_category": "nieuws",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nosnieuwsbuitenland",
+      "name": "nieuws_buitenland",
+      "category": "buitenland",
+      "super_category": "nieuws",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nosnieuwspolitiek",
+      "name": "nieuws_politiek",
+      "category": "politiek",
+      "super_category": "nieuws",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nosnieuwseconomie",
+      "name": "nieuws_economie",
+      "category": "economie",
+      "super_category": "nieuws",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nosnieuwsopmerkelijk",
+      "name": "nieuws_opmerkelijk",
+      "category": "opmerkelijk",
+      "super_category": "nieuws",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nosnieuwskoningshuis",
+      "name": "nieuws_koningshuis",
+      "category": "koningshuis",
+      "super_category": "nieuws",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nosnieuwscultuurenmedia",
+      "name": "nieuws_cultuur_en_media",
+      "category": "cultuur_en_media",
+      "super_category": "nieuws",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nosnieuwstech",
+      "name": "nieuws_tech",
+      "category": "tech",
+      "super_category": "nieuws",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nossportalgemeen",
+      "name": "sport_algemeen",
+      "category": "algemeen",
+      "super_category": "sport",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nosvoetbal",
+      "name": "sport_voetbal",
+      "category": "voetbal",
+      "super_category": "sport",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nossportwielrennen",
+      "name": "sport_wielrennen",
+      "category": "wielrennen",
+      "super_category": "sport",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nossportschaatsen",
+      "name": "sport_schaatsen",
+      "category": "schaatsen",
+      "super_category": "sport",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nossporttennis",
+      "name": "sport_tennis",
+      "category": "tennis",
+      "super_category": "sport",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nossportformule1",
+      "name": "sport_formule_1",
+      "category": "formule_1",
+      "super_category": "sport",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nieuwsuuralgemeen",
+      "name": "nieuwsuur",
+      "category": "news_programme",
+      "super_category": "tv_programme",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/nosop3",
+      "name": "NOS_op_3",
+      "category": "news_programme",
+      "super_category": "tv_programme",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   },
+   {
+      "feed": "https://feeds.nos.nl/jeugdjournaal",
+      "name": "NOS_jeugdjournaal",
+      "category": "news_programme",
+      "super_category": "tv_programme",
+      "source_category": "news",
+      "publication": "NOS",
+      "homepage": "https://nos.nl/",
+      "country": "NL",
+      "language": "nl"
+   }
+]

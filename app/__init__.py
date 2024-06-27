@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 
-#from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch
 
 import os
 import logging
@@ -32,6 +32,12 @@ def create_app(config_class=Config):
 
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
+
+    app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']],
+                                      ca_certs=app.config['ELASTICSEARCH_CERT'],
+                                      basic_auth=(app.config['ELASTICSEARCH_USERNAME'],
+                                                  app.config['ELASTICSEARCH_PASSWORD'])) \
+        if Config.ELASTICSEARCH_URL else None
 
     if not os.path.exists('logs'):
         os.mkdir('logs')

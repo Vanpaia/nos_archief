@@ -2,41 +2,52 @@
 
 {% block styles %}
 {{super()}}
-<link rel="stylesheet"
-      href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 {% endblock %}
 
 {% block title %}
     {% if title %}
-    {{ title }} - NOS Archief</title>
+    <title>{{ title }} - NOS Archief</title>
     {% else %}
-    Welkom in het inofficiele NOS Archief!</title>
+    <title>Welkom in het inofficiele NOS Archief!</title>
     {% endif %}
 {% endblock %}
 
+
 {% block navbar %}
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('main.index') }}">Archief</a></li>
-                    <li><a href="{{ url_for('main.index') }}">Zoeken</a></li>
-                    <li><a href="{{ url_for('main.index') }}">API</a></li>
-                </ul>
-                {% if g.search_form %}
-                <form class="navbar-form navbar-left" method="get" action="{{ url_for('main.index') }}">
-                    <div class="form-group">
-                        {{ g.search_form.q(size=20, class='form-control', placeholder=g.search_form.q.label.text) }}
-                    </div>
-                </form>
-                {% endif %}
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ url_for('main.index') }}">Over</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <div class="bd-example">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+            <a class="navbar-brand" href="#">NOS Archief</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('main.archief') }}">Archief</a>
+              </li>
+              <li class="navbar-nav mr-auto">
+                <a class="nav-link" href="{{ url_for('main.geavanceerd_zoeken') }}">Zoeken</a>
+              </li>
+              <li class="navbar-nav mr-auto">
+                <a class="nav-link" href="{{ url_for('main.index') }}">API</a>
+              </li>
+            </ul>
+            {% if g.search_form %}
+            <form class="form-inline my-2 my-lg-0" method="get" action="{{ url_for('main.resultaten') }}">
+                <div class="form-group">
+                    {{ g.search_form.q(size=20, class='form-control', placeholder=g.search_form.q.label.text) }}
+                </div>
+            </form>
+            {% endif %}
+            <ul class="navbar-nav ml-auto">
+                <li><a href="{{ url_for('main.index') }}">About</a></li>
+            </ul>
+          </div>
+        </nav>
+    </div>
 {% endblock %}
+
 
 {% block content %}
     <div class="container">

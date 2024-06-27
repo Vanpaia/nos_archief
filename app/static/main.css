@@ -14,6 +14,12 @@ ul {
   list-style-position: outside;
 }
 
+nav {
+    margin-right: 2rem;
+    margin-left: 2rem;
+}
+
+
 .flex-container {
     display: flex;
     flex-direction: column-reverse;
@@ -90,4 +96,12 @@ div.outset {
     max-height:32px;
     width: auto;
     height: auto;
+}
+
+.bd-example {
+    padding: 1.5rem;
+    }
+
+.datepicker {
+    font-size: 0.875em;
 }
