@@ -47,26 +47,26 @@ class SearchableMixin(object):
 db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
 db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)
 
-article_category = db.Table('article_category',
-    db.Column('article_id', db.Integer, db.ForeignKey('article.id', ondelete='CASCADE'), primary_key=True),
+rssarticle_category = db.Table('rssarticle_category',
+    db.Column('rssarticle_id', db.Integer, db.ForeignKey('rssarticle.id', ondelete='CASCADE'), primary_key=True),
     db.Column('category_id', db.Integer, db.ForeignKey('news_category.id'), primary_key=True)
 )
 
 
-class Article(SearchableMixin, db.Model):
+class RSSArticle(SearchableMixin, db.Model):
     __searchable__ = ['title', 'summary', 'publish_timestamp']
     id = db.Column(db.Integer, primary_key=True)
     capture_timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     title = db.Column(db.String(256), index=True)
-    link = db.Column(db.String(128), index=True)
-    image = db.Column(db.String(128))
+    link = db.Column(db.String(256), index=True)
+    image = db.Column(db.String(256))
     publish_timestamp = db.Column(db.DateTime, index=True)
     summary = db.Column(db.Text)
 
-    categories = db.relationship(
-        "NewsCategory",
-        secondary=article_category,
-        back_populates='articles',
+    rsscategories = db.relationship(
+        "RSSCategory",
+        secondary=rssarticle_category,
+        back_populates='rssarticles',
         cascade = "all, delete"
     )
 
@@ -78,14 +78,14 @@ class Article(SearchableMixin, db.Model):
 
 
 
-class NewsCategory(db.Model):
+class RSSCategory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(256), index=True)
     supercategory = db.Column(db.String(128), index=True)
     link = db.Column(db.String(128), index=True)
 
-    articles = db.relationship(
-        "Article",
-        secondary=article_category,
-        back_populates='categories',
+    rssarticles = db.relationship(
+        "RSSArticle",
+        secondary=rssarticle_category,
+        back_populates='rsscategories',
         passive_deletes=True)

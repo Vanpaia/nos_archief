@@ -7,7 +7,7 @@ from app import db
 from app.main import bp
 
 from app.main.forms import SearchForm, ArchiveForm, AdvancedSearchForm
-from app.models import NewsCategory, Article
+from app.models import RSSCategory, RSSArticle
 
 
 @bp.before_app_request
@@ -36,17 +36,17 @@ def archief():
     else:
         start_date = filter_date.date()
         end_date = filter_date.date()
-    query = Article.query.filter(cast(Article.publish_timestamp,Date) >= start_date).filter(cast(Article.publish_timestamp,Date) <= end_date).order_by(cast(Article.publish_timestamp,Date)).order_by(cast(Article.publish_timestamp,Time))
-    filter_category = request.args.get('categorie')
-    if filter_category is None:
+    query = RSSArticle.query.filter(cast(RSSArticle.publish_timestamp,Date) >= start_date).filter(cast(RSSArticle.publish_timestamp,Date) <= end_date).order_by(cast(RSSArticle.publish_timestamp,Date)).order_by(cast(RSSArticle.publish_timestamp,Time))
+    filter_rsscategory = request.args.get('rsscategorie')
+    if filter_rsscategory is None:
         pass
-    elif filter_category == 'alles':
+    elif filter_rsscategory == 'alles':
         pass
     else:
-        query = query.filter(Article.categories.any(title=filter_category)).all()
-    datepicker = ArchiveForm(date=filter_date, period=request.args.get('period'), category=request.args.get('categorie'))
+        query = query.filter(RSSArticle.categories.any(title=filter_rsscategory)).all()
+    datepicker = ArchiveForm(date=filter_date, period=request.args.get('period'), rsscategory=request.args.get('rsscategorie'))
     if datepicker.validate_on_submit():
-        return redirect(url_for('main.archief', date=datepicker.date.data, period=datepicker.period.data, categorie=datepicker.category.data))
+        return redirect(url_for('main.archief', date=datepicker.date.data, period=datepicker.period.data, categorie=datepicker.rsscategory.data))
     return render_template('archief.html', query=query, date=filter_date, start_date=start_date, end_date=end_date, datepicker=datepicker)
 
 @bp.route('/geavanceerd_zoeken', methods=['GET', 'POST'])
@@ -55,10 +55,10 @@ def geavanceerd_zoeken():
     if advanced_search.validate_on_submit():
         start_date = advanced_search.start_date.data
         end_date = advanced_search.end_date.data
-        category = advanced_search.category.data
+        rsscategory = advanced_search.rsscategory.data
         query = advanced_search.query.data
         title_only = advanced_search.title_only.data
-        return redirect(url_for('main.resultaten', q=query, title=title_only, categorie=category, start=start_date, end=end_date))
+        return redirect(url_for('main.resultaten', q=query, title=title_only, categorie=rsscategory, start=start_date, end=end_date))
     return render_template('geavanceerd_zoeken.html', title='Geavanceerd Zoeken', form=advanced_search)
 
 @bp.route('/resultaten', methods=['GET', 'POST'])
@@ -67,9 +67,9 @@ def resultaten():
     page = request.args.get('page', 1, type=int)
     start_date = request.args.get('start')
     end_date = request.args.get('end')
-    category = request.args.get('categorie')
-    if category == 'alles':
-        category = None
+    rsscategory = request.args.get('categorie')
+    if rsscategory == 'alles':
+        rsscategory = None
     title_only = request.args.get('title')
     print(title_only)
     if title_only == 'True':
@@ -82,14 +82,14 @@ def resultaten():
     if advanced_search.validate_on_submit():
         new_start_date = advanced_search.start_date.data
         new_end_date = advanced_search.end_date.data
-        new_category = advanced_search.category.data
+        new_rsscategory = advanced_search.rsscategory.data
         new_query = advanced_search.query.data
         new_title_only = advanced_search.title_only.data
-        return redirect(url_for('main.resultaten', q=new_query, title=new_title_only, categorie=new_category, start=new_start_date, end=new_end_date))
-    articles, total = Article.search(g.search_form.q.data, page, current_app.config['POSTS_PER_PAGE'], category=category, start=start_date, end=end_date, fields=fields)
-    next_url = url_for('main.resultaten', q=query, title=title_only, category=category, start=start_date, end=end_date, page=page+1) \
+        return redirect(url_for('main.resultaten', q=new_query, title=new_title_only, categorie=new_rsscategory, start=new_start_date, end=new_end_date))
+    articles, total = RSSArticle.search(g.search_form.q.data, page, current_app.config['POSTS_PER_PAGE'], rsscategory=rsscategory, start=start_date, end=end_date, fields=fields)
+    next_url = url_for('main.resultaten', q=query, title=title_only, rsscategory=rsscategory, start=start_date, end=end_date, page=page+1) \
         if total > page * current_app.config['POSTS_PER_PAGE'] else None
-    prev_url = url_for('main.resultaten', q=query, title=title_only, category=category, start=start_date, end=end_date, page=page-1) \
+    prev_url = url_for('main.resultaten', q=query, title=title_only, rsscategory=rsscategory, start=start_date, end=end_date, page=page-1) \
         if page > 1 else None
     print(fields)
     return render_template('resultaten.html', title='Zoek Resultaten', articles=articles, total=total, form=advanced_search,

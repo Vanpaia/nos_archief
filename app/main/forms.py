@@ -2,9 +2,9 @@ import wtforms
 from flask import request
 from flask_wtf import FlaskForm
 from wtforms import StringField, DateField, SelectField, SubmitField, RadioField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Optional
 
-categories = [
+rsscategories = [
     ("alles", "Alles"),
     ("algemeen", "Nieuws Algemeen"),
     ("binnenland", "Nieuws Binnenland"),
@@ -42,18 +42,18 @@ class DateForm(FlaskForm):
     date = DateField('Datum', format='%Y-%m-%d')
 
 class CategoryForm(FlaskForm):
-    language = SelectField('Categorie', choices=categories)
+    language = SelectField('Categorie', choices=rsscategories)
 
 class ArchiveForm(FlaskForm):
     date = wtforms.DateField('Datum', format='%Y-%m-%d')
     period = wtforms.RadioField('Periode', default='dag', choices=['dag', 'week', 'maand'], validate_choice=False)
-    category = wtforms.SelectField('Categorie', choices=categories, validate_choice=False)
+    rsscategory = wtforms.SelectField('Categorie', choices=rsscategories, validate_choice=False)
     submit = SubmitField('Zoeken')
 
 class AdvancedSearchForm(FlaskForm):
-    start_date = wtforms.DateField('Vanaf', format='%Y-%m-%d')
-    end_date = wtforms.DateField('Tot', format='%Y-%m-%d')
-    category = wtforms.SelectField('Categorie', choices=categories)
     query = wtforms.StringField('Zoektermen')
-    title_only = wtforms.BooleanField('Alleen titel doorzoeken  ')
+    start_date = wtforms.DateField('Vanaf', format='%Y-%m-%d', validators=[Optional()])
+    end_date = wtforms.DateField('Tot', format='%Y-%m-%d', validators=[Optional()])
+    rsscategory = wtforms.SelectField('Categorie', choices=rsscategories, validate_choice=False)
+    title_only = wtforms.BooleanField('Alleen titel doorzoeken', validators=[Optional()])
     submit = SubmitField('Zoeken')

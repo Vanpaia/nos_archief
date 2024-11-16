@@ -4,6 +4,10 @@ from datetime import datetime, date
 import logging
 import os
 from flask import current_app
+import sys
+
+# adding Folder_2 to the system path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app import create_app, db
 from config import Config
