@@ -1,9 +1,9 @@
 from app import create_app, db
-from app.models import Article, NewsCategory
+from app.models import RSSArticle, RSSCategory
 
 app = create_app()
 
 
 @app.shell_context_processor
 def make_shell_context():
-    return {'db': db, 'Article': Article, 'NewsCategory': NewsCategory}
+    return {'db': db, 'RSSArticle': RSSArticle, 'RSSCategory': RSSCategory}
