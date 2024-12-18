@@ -49,7 +49,7 @@ db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)
 
 rssarticle_category = db.Table('rssarticle_category',
     db.Column('rssarticle_id', db.Integer, db.ForeignKey('rssarticle.id', ondelete='CASCADE'), primary_key=True),
-    db.Column('rsscategory_id', db.Integer, db.ForeignKey('rsscategory.id'), primary_key=True)
+    db.Column('rsscategory_id', db.Integer, db.ForeignKey('rsscategory.id', ondelete='CASCADE'), primary_key=True)
 )
 
 
@@ -67,7 +67,7 @@ class RSSArticle(SearchableMixin, db.Model):
         "RSSCategory",
         secondary=rssarticle_category,
         back_populates='rssarticles',
-        cascade = "all, delete"
+        cascade = "all, delete-orphan"
     )
 
     def to_date(self):
