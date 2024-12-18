@@ -48,12 +48,13 @@ db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
 db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)
 
 rssarticle_category = db.Table('rssarticle_category',
-    db.Column('rssarticle_id', db.Integer, db.ForeignKey('rssarticle.id', ondelete='CASCADE'), primary_key=True),
-    db.Column('rsscategory_id', db.Integer, db.ForeignKey('rsscategory.id', ondelete='CASCADE'), primary_key=True)
+    db.Column('rssarticle_id', db.Integer, db.ForeignKey('rss_article.id', ondelete='CASCADE'), primary_key=True),
+    db.Column('rsscategory_id', db.Integer, db.ForeignKey('rss_category.id', ondelete='CASCADE'), primary_key=True)
 )
 
 
 class RSSArticle(SearchableMixin, db.Model):
+    __tablename__ = 'rss_article'  # Explicitly set table name
     __searchable__ = ['title', 'summary', 'publish_timestamp']
     id = db.Column(db.Integer, primary_key=True)
     capture_timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
@@ -79,6 +80,7 @@ class RSSArticle(SearchableMixin, db.Model):
 
 
 class RSSCategory(db.Model):
+    __tablename__ = 'rss_category'  # Explicitly set table name
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(256), index=True)
     supercategory = db.Column(db.String(128), index=True)
