@@ -55,7 +55,7 @@ rssarticle_category = db.Table('rssarticle_category',
 
 class RSSArticle(SearchableMixin, db.Model):
     __tablename__ = 'rss_article'  # Explicitly set table name
-    __searchable__ = ['title', 'summary', 'publish_timestamp']
+    __searchable__ = ['title', 'summary', 'publish_timestamp', 'nos_categories']
     id = db.Column(db.Integer, primary_key=True)
     capture_timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     title = db.Column(db.String(256), index=True)
@@ -63,6 +63,7 @@ class RSSArticle(SearchableMixin, db.Model):
     image = db.Column(db.String(256))
     publish_timestamp = db.Column(db.DateTime, index=True)
     summary = db.Column(db.Text)
+    nos_categories = db.Column(db.Text)
 
     rsscategories = db.relationship(
         "RSSCategory",
