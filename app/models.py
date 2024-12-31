@@ -7,8 +7,8 @@ from sqlalchemy import Date, cast
 
 class SearchableMixin(object):
     @classmethod
-    def search(cls, expression, page, per_page, category=None, start=None, end=None, fields=['*']):
-        ids, total = query_detail(cls.__tablename__, expression, page, per_page, category, start, end, fields)
+    def search(cls, expression, page, per_page, rsscategory=None, start=None, end=None, fields=['*']):
+        ids, total = query_detail(cls.__tablename__, expression, page, per_page, rsscategory, start, end, fields)
         if total == 0:
             return cls.query.filter_by(id=0), 0
         when = {}
