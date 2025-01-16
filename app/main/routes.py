@@ -1,4 +1,5 @@
-from flask import render_template, g, redirect, url_for, current_app, request
+from flask import render_template, g, redirect, url_for, current_app, request, jsonify
+from flask_wtf import form
 from datetime import datetime, timedelta
 from calendar import monthrange
 from sqlalchemy import Date, Time, cast
@@ -8,6 +9,7 @@ from app.main import bp
 
 from app.main.forms import SearchForm, ArchiveForm, AdvancedSearchForm
 from app.models import RSSCategory, RSSArticle
+from app.summary import summarize
 
 
 @bp.before_app_request
@@ -44,10 +46,13 @@ def archief():
         pass
     else:
         query = query.filter(RSSArticle.categories.any(title=filter_rsscategory)).all()
+    titles = []
+    for title in query:
+        titles.append(title.title)
     datepicker = ArchiveForm(date=filter_date, period=request.args.get('period'), rsscategory=request.args.get('rsscategorie'))
     if datepicker.validate_on_submit():
         return redirect(url_for('main.archief', date=datepicker.date.data, period=datepicker.period.data, categorie=datepicker.rsscategory.data))
-    return render_template('archief.html', query=query, date=filter_date, start_date=start_date, end_date=end_date, datepicker=datepicker)
+    return render_template('archief.html', query=query, date=filter_date, start_date=start_date, end_date=end_date, datepicker=datepicker, titles=titles)
 
 @bp.route('/geavanceerd_zoeken', methods=['GET', 'POST'])
 def geavanceerd_zoeken():
@@ -91,7 +96,10 @@ def resultaten():
         if total > page * current_app.config['POSTS_PER_PAGE'] else None
     prev_url = url_for('main.resultaten', q=query, title=title_only, rsscategory=rsscategory, start=start_date, end=end_date, page=page-1) \
         if page > 1 else None
-    print(fields)
     return render_template('resultaten.html', title='Zoek Resultaten', articles=articles, total=total, form=advanced_search,
                                next_url=next_url, prev_url=prev_url)
 
+
+@bp.route('/summarize', methods=['POST'])
+def summarize_titles():
+    return jsonify({'text': summarize(request.form.getlist('titles[]'))})

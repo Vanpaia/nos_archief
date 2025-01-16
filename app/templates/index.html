@@ -13,4 +13,47 @@
     <h4 style="text-align: center;">
         <em>Het toegankelijke archief van publieke nieuwsberichten.</em>
     </h4>
+    <br>
+    <h2>Wat is dit archief?</h2>
+    <p>
+        In <a href="{{ url_for('main.archief') }}">dit archief</a> heb je een overzicht van nieuwsberichten die door de Nederlandse Omroep Stichting (NOS) in een door jou bepaalde periode zijn geplaatst.
+        Als je bijvoorbeeld wilt zien wat er allemaal is gebeurd op een bepaalde dag, week of maand, kun je hier een lijst van artikelen vinden en een samenvatting gebaseerd op die titels.
+        Ik indexeer alleen maar NOS artikelen op basis van titel en link en stuur je door naar de NOS website voor de artikelen. Ik geef de inhoud van de artikelen niet weer en heb ook zelf geen toegang ertoe.
+        <br>
+        <br>
+        Verder kun je met <a href="{{ url_for('main.geavanceerd_zoeken') }}">deze geavanceerde zoekfunctie</a> NOS artikelen zoeken en in de zoekopdracht categorieën en publicatiedatum of periode specificeren.
+        <br>
+        <br>
+        Gezien ik de gehele infrastructuur al heb gemaakt om het voorgaande mogelijk te maken, heb ik ook besloten <a href="{{ url_for('api.overview') }}">een publiek toegankelijke API</a> te maken, zodat het makkelijker is voor anderen om met die data te werken.
+    </p>
+    <br>
+    <h2>Waarom heb ik dit archief gemaakt?</h2>
+    <p>
+        Tot 2024 had de NOS een super archief. Je kun een datum kiezen in een categorie en zien wat er op die dag allemaal is gebeurd. Aan het einde van 2023 heeft <a href="https://over.nos.nl/faq/waar-kan-ik-de-berichten-die-voorheen-in-het-archief-stonden-vinden/">de NOS aangekondigd</a> dat oude artikelen alleen nog maar door hun zoekfunctie toegankelijk zou zijn.
+        Het enige probleem is dat <a href="https://nos.nl/zoeken">deze zoekfunctie</a> bagger is. Je kunt niet filteren op datum of categorie. Als je iets zoekt wat ook maar iets aan artikelen heeft is het als een naald in een hooiberg zoeken.
+        Het enige voordeel van deze zoekfunctie is als je een super specifiek zoekwoord wilt gaan zoeken, in de inhoud van het artikel, en je niet teveel resultaten verwacht. In dat geval kun je beter de NOS zoekfunctie gebruiken, gezien ik geen toegang tot de tekst van de artikelen heb, maar alleen titels, korte samenvattingen en andere metadata.
+        <br>
+        <br>
+        <img src="{{url_for('static', filename='archive_screenshot.png')}}">
+        <br>
+        <br>
+        Maar juist in een tijd van fake news, AI en polarisatie is het super belangrijk de waarheid na te gaan, vooral als het een paar maanden of jaren geleden is. Of het om harde feiten gaat, of om een algemene stemming, of hoe er over een onderwerp gesproken werd.
+        Ook als je een onderzoek wilt doen, als je na wilt gaan hoeveel artikelen over de verschillende politieke partijen werden geschreven, of hoe er over onderwerpen zoals corona of vluchtelingen in verschillende tijden werden gerapporteerd.
+    </p>
+    <br>
+    <h2>Hoeveel NOS artikelen zijn geindexeerd in dit archief?</h2>
+    <p>
+        In totaal zijn er rond de 70.000 artikelen geindexeerd.
+        <br>
+        <br>
+        Sinds Juni 2024, indexeer ik NOS artikelen en metadata, gedeeld door de NOS zelf. Echter vond ik het belangrijk om zo ver mogelijk terug te gaan zodat mijn archief niet pas over een paar jaar bruikbaar wordt. Dus heb ik in de <a href="https://web.archive.org/">Internet Archive</a> opgezocht welke artikelen sinds 2010 gepubliceerd werden.
+        De kwaliteit van de data die ik van de Internet Archive heb verkregen is niet altijd even goed. Snapshots waren niet altijd even regelmatig en de metadata die door de NOS erbij geplaatst werd veranderde ook met de tijd.
+        <br>
+        <br>
+        Als je een betere dataset hebt en die wilt delen, stuur me een bericht: <a href="mailto:insight.democracy@gmail.com">insight.democracy@gmail.com</a>.
+        <br>
+        <br>
+        In de tussentijd heb ik een zoekoptie toegevoegd om alleen titels te doorzoeken om data vanaf Juni 2024 en data van ervoor goed met elkaar te kunnen vergelijken.
+    </p>
+
 {% endblock %}

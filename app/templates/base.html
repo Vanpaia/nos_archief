@@ -30,7 +30,7 @@
                 <a class="nav-link" href="{{ url_for('main.geavanceerd_zoeken') }}">Zoeken</a>
               </li>
               <li class="navbar-nav mr-auto">
-                <a class="nav-link" href="{{ url_for('main.index') }}">API</a>
+                <a class="nav-link" href="{{ url_for('api.overview') }}">API</a>
               </li>
             </ul>
             {% if g.search_form %}
@@ -68,4 +68,16 @@
     {{ super() }}
     {{ moment.include_moment() }}
     {{ moment.locale(language='en-GB', auto_detect=True) }}
+    <script>
+        function summarize(destElem, titles) {
+            $(destElem).html('<img src="{{ url_for('static', filename='loading.gif') }}">');
+            $.post('/summarize', {
+                titles
+            }).done(function(response) {
+                $(destElem).html(response['text'])
+            }).fail(function() {
+                $(destElem).text("Error: Could not contact server.");
+            });
+        }
+    </script>
 {% endblock %}

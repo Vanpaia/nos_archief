@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('static', filename='main.css')}}">
+{% endblock %}
+
+
+{% block app_content %}
+    <h1><span style="color: #41c1fd;"><strong>NOS Archief</strong></span></h1>
+    <h4 style="text-align: center;">
+        <em>Het toegankelijke archief van publieke nieuwsberichten.</em>
+    </h4>
+    <br>
+    <h2>Endpoint</h2>
+    <p>Op dit moment is er maar een endpoint: www.media.insight-democracy.com/api/v1.</p>
+    <p>Deze endpoint maakt het mogelijk door de database te zoeken en met een paar argumenten de resultaten te filteren.</p>
+    <br>
+    <h2>Argumenten</h2>
+    <p>De volgende URL een acceptable API oproep, die van alle argumenten gebruik maakt: <code>https://www.media.insight-democracy.com/api/v1?q=sinterklaas+zwarte+piet&title=False&categorie=binnenland&start=2023-01-01&end=2025-01-12&limit=10&page=2</code></p>
+    <p>De volgende argumenten zijn beschikbaar voor uw zoekinstellingen:</p>
+    <li><h5>Zoekwoorden: <code>p</code></h5></li>
+        <p>Dit argument laat je de gezochte resultaten filteren door zoekwoorden toe te voegen, die gesplitst worden met <code>+</code>.</p>
+    <li><h5>Alleen titels: <code>title</code></h5></li>
+        <p>Dit argument laat je de gezochte resultaten filteren door alleen titels to doorzoeken met <code>True</code>, alle andere metadata wordt genegeerd.</p>
+        <dl>
+            <dt>De volgende waarden zijn toegestaan:</dt>
+            <dd><code>True</code></dd>
+            <dd><code>False</code></dd>
+        </dl>
+
+    <li><h5>Categorieën: <code>category</code></h5></li>
+        <p>Dit argument laat je de gezochte resultaten filteren door een of meer categorieën toe te voegen, die gesplitst worden met <code>+</code>.</p>
+        <dl>
+            <dt>De volgende waarden zijn toegestaan:</dt>
+            <dd><code>alles</code></dd>
+            <dd><code>algemeen</code></dd>
+            <dd><code>binnenland</code></dd>
+            <dd><code>politiek</code></dd>
+            <dd><code>economie</code></dd>
+            <dd><code>opmerkelijk</code></dd>
+            <dd><code>koningshuis</code></dd>
+            <dd><code>cultuur+en+media</code></dd>
+            <dd><code>tech</code></dd>
+            <dd><code>voetbal</code></dd>
+            <dd><code>wielrennen</code></dd>
+            <dd><code>schaatsen</code></dd>
+            <dd><code>tennis</code></dd>
+            <dd><code>formule+1</code></dd>
+            <dd><code>nieuwsuur</code></dd>
+            <dd><code>NOS+op+3</code></dd>
+            <dd><code>NOS+jeugdjournaal</code></dd>
+        </dl>
+    <li><h5>Begindatum: <code>start</code></h5></li>
+        <p>Dit argument laat je de gezochte resultaten filteren door het begindatum van resultaten vast te leggen in het volgende formaat: <code>YYYY-MM-DD</code></p>
+    <li><h5>Einddatum: <code>end</code></h5></li>
+        <p>Dit argument laat je de gezochte resultaten filteren door het einddatum van resultaten vast te leggen in het volgende formaat: <code>YYYY-MM-DD</code></p>
+    <li><h5>Limiet: <code>limit</code></h5></li>
+        <p>Dit argument laat je de gezochte resultaten pagineren door het maximum limiet van zoekresultaten per antwoord vast te leggen.</p>
+    <li><h5>Pagina: <code>page</code></h5></li>
+        <p>Dit argument laat je de gezochte resultaten pagineren door de pagina van de zoekresultaten per antwoord vast te leggen.</p>
+    <br>
+    <h2>Rate limit</h2>
+    <p>De rate limit van de API is verhoogd naar 5000 per dag, 1000 per uur en 100 per minuut. Mocht dat niet genoeg zijn, kun je altijd de data direct vragen, of een aangepaste rate limit aanvragen: <a href="mailto:insight.democracy@gmail.com">insight.democracy@gmail.com</a>.</p>
+    <br>
+    <h2>Structuur</h2>
+    <p>Het antwoord van de API wordt gestuurd met de volgende structuur:</p>
+    <code>
+        {"result_amount":68,
+        <br>
+        "result_pagination":{
+        <br>
+        &emsp;    "limit":10,
+        <br>
+        &emsp;    "max_page":7,
+        <br>
+        &emsp;    "page":2},
+        <br>
+        "result_query":{
+        <br>
+        &emsp;    "categories":["binnenland"],
+        <br>
+        &emsp;    "end_date":"2025-01-12",
+        <br>
+        &emsp;    "search":"sinterklaas zwarte piet",
+        <br>
+        &emsp;    "start_date":"2023-01-01",
+        <br>
+        &emsp;    "title_only":"False"},
+        <br>
+        "results":[
+        <br>
+        &emsp;  ["'Amerikaanse Nobelprijs' voor kankeronderzoeker Piet Borst",["binnenland"],"2023-09-21T19:37:23+02:00"],
+        <br>
+        &emsp;  ["Justitie verdedigt inzet kroongetuige in nieuwe liquidatiezaak",["algemeen","binnenland"],"2024-08-29T15:26:16+02:00"],
+        <br>
+        &emsp;  ["Merel Westrik vervangt Dieuwertje Blok bij Sinterklaasjournaal",["algemeen","binnenland","cultuur en media"],"2024-08-12T12:25:46+02:00"],
+        <br>
+        &emsp;  ["Drugsbaron Piet S. moet 19 miljoen betalen aan OM, 81 miljoen minder dan ge\u00ebist",["algemeen","binnenland"],"2024-12-17T18:19:37+01:00"],
+        <br>
+        &emsp;  ["Caravans in brand op festivalcamping van Zwarte Cross",["algemeen","binnenland"],"2024-07-20T07:19:29+02:00"],
+        <br>
+        &emsp;  ["OM eist 16 jaar tegen Haagse 'drugsmakelaar' Piet S.",["binnenland"],"2023-05-26T18:41:11+02:00"],
+        <br>
+        &emsp;  ["Naast Gerrit Hiemstra ook Piet Paulusma ge\u00eberd met stormnaam",["binnenland"],"2023-09-01T09:04:56+02:00"],
+        <br>
+        &emsp;  ["Wekdienst 16/11: Intocht Sinterklaas \u2022 Nederland-Hongarije in Nations League",["algemeen","binnenland","buitenland"],"2024-11-16T07:22:01+01:00"],
+        <br>
+        &emsp;  ["ON-presentator Raisa Blommestijn veroordeeld tot 80 uur taakstraf, meer dan de eis",["algemeen","binnenland"],"2024-12-05T13:31:33+01:00"],
+        <br>
+        &emsp;  ["Verontruste ouders krijgen persoonlijke mail van Sinterklaasjournaal",["binnenland","cultuur en media"],"2024-11-27T10:54:14+01:00"]
+        <br>
+        &emsp;]
+        <br>
+        }
+    </code>
+
+{% endblock %}

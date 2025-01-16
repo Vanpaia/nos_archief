@@ -1,8 +1,10 @@
-from flask import Flask
+from flask import Flask, render_template, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from flask_limiter import Limiter, RequestLimit
+from flask_limiter.util import get_remote_address
 
 from elasticsearch import Elasticsearch
 
@@ -13,10 +15,20 @@ from logging.handlers import RotatingFileHandler
 from config import Config
 
 
+def default_error_responder(request_limit: RequestLimit):
+    return make_response(
+        render_template("429.html"),
+        429
+    )
+
 db = SQLAlchemy()
 migrate = Migrate()
 bootstrap = Bootstrap()
 moment = Moment()
+limiter = Limiter(
+    get_remote_address,
+    on_breach=default_error_responder
+)
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -26,12 +38,16 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     bootstrap.init_app(app)
     moment.init_app(app)
+    limiter.init_app(app)
 
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
 
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
+
+    from app.api import bp as api_bp
+    app.register_blueprint(api_bp)
 
     app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']],
                                       ca_certs=app.config['ELASTICSEARCH_CERT'],

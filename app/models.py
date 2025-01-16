@@ -3,6 +3,7 @@ from app.search import add_to_index, remove_from_index, query_detail
 
 from datetime import datetime
 from sqlalchemy import Date, cast
+from dataclasses import dataclass
 
 
 class SearchableMixin(object):
@@ -53,9 +54,16 @@ rssarticle_category = db.Table('rssarticle_category',
 )
 
 
+@dataclass
 class RSSArticle(SearchableMixin, db.Model):
     __tablename__ = 'rss_article'  # Explicitly set table name
     __searchable__ = ['title', 'summary', 'publish_timestamp', 'nos_categories']
+
+    id: int
+    title: str
+    capture_timestamp: str
+    link: str
+
     id = db.Column(db.Integer, primary_key=True)
     capture_timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     title = db.Column(db.String(256), index=True)
@@ -77,6 +85,9 @@ class RSSArticle(SearchableMixin, db.Model):
 
     def to_time(self):
         return self.publish_timestamp.time()
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 

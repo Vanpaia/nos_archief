@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h1>Daar is iemand ongeduldig!</h1>
+    <p>Je hebt te veel verzoeken  gestuurd in een korte tijdsperiode.
+        Wacht heel even, gebruik onze API, of vraag de administrator om de data.</p>
+    <p>{{ request_limit }}</p>
+    <p><a href="{{ url_for('main.index') }}">Terug</a></p>
+{% endblock %}

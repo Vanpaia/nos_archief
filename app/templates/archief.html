@@ -20,6 +20,14 @@
     {% else %}
         <h5>NOS nieuwsberichten van {{ start_date }} tot {{ end_date }}</h5>
     {% endif %}
+    <br>
+    <span id="samenvatting">
+        <a href="javascript:summarize(
+                    '#samenvatting',
+                    {{ titles }});">Gemini AI Samenvatting Aanvragen</a>
+    </span>
+    <br>
+    <br>
     <table>
         <tr>
             <td>Datum</td>
