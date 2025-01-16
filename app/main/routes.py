@@ -19,7 +19,7 @@ def before_request():
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', title='Index')
+    return render_template('index.html', url_title='Index')
 
 @bp.route('/archief', methods=['GET', 'POST'])
 def archief():
@@ -51,8 +51,8 @@ def archief():
         titles.append(title.title)
     datepicker = ArchiveForm(date=filter_date, period=request.args.get('period'), rsscategory=request.args.get('rsscategorie'))
     if datepicker.validate_on_submit():
-        return redirect(url_for('main.archief', date=datepicker.date.data, period=datepicker.period.data, categorie=datepicker.rsscategory.data))
-    return render_template('archief.html', query=query, date=filter_date, start_date=start_date, end_date=end_date, datepicker=datepicker, titles=titles)
+        return redirect(url_for('main.archief', url_title='Archief', date=datepicker.date.data, period=datepicker.period.data, categorie=datepicker.rsscategory.data))
+    return render_template('archief.html', url_title='Archief', query=query, date=filter_date, start_date=start_date, end_date=end_date, datepicker=datepicker, titles=titles)
 
 @bp.route('/geavanceerd_zoeken', methods=['GET', 'POST'])
 def geavanceerd_zoeken():
@@ -63,8 +63,8 @@ def geavanceerd_zoeken():
         rsscategory = advanced_search.rsscategory.data
         query = advanced_search.query.data
         title_only = advanced_search.title_only.data
-        return redirect(url_for('main.resultaten', q=query, title=title_only, categorie=rsscategory, start=start_date, end=end_date))
-    return render_template('geavanceerd_zoeken.html', title='Geavanceerd Zoeken', form=advanced_search)
+        return redirect(url_for('main.resultaten', q=query, url_title='Geavanceerd Zoeken', title=title_only, categorie=rsscategory, start=start_date, end=end_date))
+    return render_template('geavanceerd_zoeken.html', url_title='Geavanceerd Zoeken', form=advanced_search)
 
 @bp.route('/resultaten', methods=['GET', 'POST'])
 def resultaten():
@@ -92,11 +92,11 @@ def resultaten():
         new_title_only = advanced_search.title_only.data
         return redirect(url_for('main.resultaten', q=new_query, title=new_title_only, categorie=new_rsscategory, start=new_start_date, end=new_end_date))
     articles, total = RSSArticle.search(g.search_form.q.data, page, current_app.config['POSTS_PER_PAGE'], rsscategory=rsscategory, start=start_date, end=end_date, fields=fields)
-    next_url = url_for('main.resultaten', q=query, title=title_only, rsscategory=rsscategory, start=start_date, end=end_date, page=page+1) \
+    next_url = url_for('main.resultaten', url_title='Zoek Resultaten', q=query, title=title_only, rsscategory=rsscategory, start=start_date, end=end_date, page=page+1) \
         if total > page * current_app.config['POSTS_PER_PAGE'] else None
-    prev_url = url_for('main.resultaten', q=query, title=title_only, rsscategory=rsscategory, start=start_date, end=end_date, page=page-1) \
+    prev_url = url_for('main.resultaten', url_title='Zoek Resultaten', q=query, title=title_only, rsscategory=rsscategory, start=start_date, end=end_date, page=page-1) \
         if page > 1 else None
-    return render_template('resultaten.html', title='Zoek Resultaten', articles=articles, total=total, form=advanced_search,
+    return render_template('resultaten.html', url_title='Zoek Resultaten', articles=articles, total=total, form=advanced_search,
                                next_url=next_url, prev_url=prev_url)
 
 

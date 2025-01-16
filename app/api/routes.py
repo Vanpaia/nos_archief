@@ -21,7 +21,7 @@ def api_error_responder(rate_limit):
 
 @bp.route('/api', methods=['GET', 'POST'])
 def overview():
-    return render_template('api/overview.html', title='API')
+    return render_template('api/overview.html', url_title='API', )
 
 @bp.route('/api/v1', methods=['GET', 'POST'])
 @limiter.limit("5000 per day, 1000 per hour, 100 per minute", on_breach=api_error_responder)
