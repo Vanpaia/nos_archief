@@ -8,7 +8,7 @@ class Config(object):
     SECRET_KEY = config['DEFAULT']['SECRET_KEY']
     SQLALCHEMY_DATABASE_URI = config['DEFAULT']['DATABASE_URL']
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    RATELIMIT_STORAGE_URI = "memcached://localhost:11211"
+    RATELIMIT_STORAGE_URI = config['DEFAULT']['RATELIMIT_STORAGE_URI']
     RATELIMIT_DEFAULT = "500 per day, 100 per hour"
     POSTS_PER_PAGE = int(config['DEFAULT']['POSTS_PER_PAGE'])
     START_DATE = config['DEFAULT']['START_DATE']
