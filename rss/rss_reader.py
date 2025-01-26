@@ -107,11 +107,11 @@ with app.app_context():
         article = RSSArticle.query.filter_by(link=entry["link"]).first()
         category = RSSCategory.query.filter_by(link=entry["title_detail"]["base"]).first()
         article.rsscategories.append(category)
-        current = current_app.elasticsearch.get(index='article', id=str(article.id))
+        current = current_app.elasticsearch.get(index='rss_article', id=str(article.id))
         try:
-            current_app.elasticsearch.update(index='article', id=str(article.id), doc={'category': f'{current["_source"]["category"]} | {category.title}'})
+            current_app.elasticsearch.update(index='rss_article', id=str(article.id), doc={'category': f'{current["_source"]["category"]} | {category.title}'})
         except KeyError:
-            current_app.elasticsearch.update(index='article', id=str(article.id), doc={'category': f'{category.title}'})
+            current_app.elasticsearch.update(index='rss_article', id=str(article.id), doc={'category': f'{category.title}'})
 
     db.session.commit()
 #Log upload of newfound entries
