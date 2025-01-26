@@ -106,7 +106,7 @@ with app.app_context():
     for entry in total_new:
         article = RSSArticle.query.filter_by(link=entry["link"]).first()
         category = RSSCategory.query.filter_by(link=entry["title_detail"]["base"]).first()
-        article.categories.append(category)
+        article.rsscategories.append(category)
         current = current_app.elasticsearch.get(index='article', id=str(article.id))
         try:
             current_app.elasticsearch.update(index='article', id=str(article.id), doc={'category': f'{current["_source"]["category"]} | {category.title}'})
