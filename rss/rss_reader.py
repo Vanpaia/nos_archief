@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from app import create_app, db
 from config import Config
-from app.models import Article, NewsCategory
+from app.models import RSSArticle, RSSCategory
 
 #Open the dictionary containing all rss sources to check
 SOURCE_FILENAME = os.path.join(os.path.dirname(__file__), 'rss_sources.json')
@@ -84,7 +84,7 @@ app = create_app(config_class=Config)
 total_upload = 0
 with app.app_context():
     nogolist = []
-    query = Article.query
+    query = RSSArticle.query
     for x in query:
         nogolist.append(x.link)
     for entry in total_new:
@@ -94,7 +94,7 @@ with app.app_context():
             for link in entry["links"]:
                 if link["type"] == "image/jpeg":
                     image_link = link["href"]
-            u = Article(title=entry["title"], link=entry["link"], image=image_link, publish_timestamp=timestamp, summary=entry["summary"])
+            u = RSSArticle(title=entry["title"], link=entry["link"], image=image_link, publish_timestamp=timestamp, summary=entry["summary"])
             db.session.add(u)
             nogolist.append((entry["link"]))
             total_upload += 1
@@ -104,8 +104,8 @@ with app.app_context():
     db.session.commit()
 
     for entry in total_new:
-        article = Article.query.filter_by(link=entry["link"]).first()
-        category = NewsCategory.query.filter_by(link=entry["title_detail"]["base"]).first()
+        article = RSSArticle.query.filter_by(link=entry["link"]).first()
+        category = RSSCategory.query.filter_by(link=entry["title_detail"]["base"]).first()
         article.categories.append(category)
         current = current_app.elasticsearch.get(index='article', id=str(article.id))
         try:
