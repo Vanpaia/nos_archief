@@ -16,11 +16,11 @@ from app.summary import summarize
 def before_request():
     g.search_form = SearchForm()
 
-@bp.route('/', methods=['GET', 'POST'])
-@bp.route('/index', methods=['GET', 'POST'])
-def index():
-    return render_template('index.html', url_title='Index')
+@bp.route('/about', methods=['GET', 'POST'])
+def about():
+    return render_template('index.html', url_title='About')
 
+@bp.route('/', methods=['GET', 'POST'])
 @bp.route('/archief', methods=['GET', 'POST'])
 def archief():
     filter_period = request.args.get('period')
