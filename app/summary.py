@@ -13,7 +13,7 @@ def summarize(articles: list):
     proompt = "Kun je een samenvatting maken van twee of drie paragrafen van de volgende lijst van nieuwsberichten. Met nadruk op themas en onderwerpen die vaak terug komen.\n"
     for item in articles:
         proompt += f"* {item}\n"
-    proompt += 'Elk thema moet worden benadrukt door er <b> voor en </b> achter te zetten. Elk thema moet op een nieuwe lijn worden begonnen door er <br><br> voor te zetten.'
+    proompt += 'Elk thema moet worden benadrukt door er <br><br><b> voor en </b><br> achter te zetten.'
     response = model.generate_content(proompt)
     print(response.text)
     return response.text
