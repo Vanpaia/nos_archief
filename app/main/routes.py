@@ -21,6 +21,7 @@ def about():
     return render_template('index.html', url_title='About')
 
 @bp.route('/', methods=['GET', 'POST'])
+@bp.route('/index', methods=['GET', 'POST'])
 @bp.route('/archief', methods=['GET', 'POST'])
 def archief():
     filter_period = request.args.get('period')
@@ -45,7 +46,7 @@ def archief():
     elif filter_rsscategory == 'alles':
         pass
     else:
-        query = query.filter(RSSArticle.categories.any(title=filter_rsscategory)).all()
+        query = query.filter(RSSArticle.rsscategories.any(title=filter_rsscategory)).all()
     titles = []
     for title in query:
         titles.append(title.title)
