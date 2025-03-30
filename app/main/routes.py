@@ -39,7 +39,7 @@ def archief():
         start_date = filter_date.date()
         end_date = filter_date.date()
     query = RSSArticle.query.filter(cast(RSSArticle.publish_timestamp,Date) >= start_date).filter(cast(RSSArticle.publish_timestamp,Date) <= end_date).order_by(cast(RSSArticle.publish_timestamp,Date)).order_by(cast(RSSArticle.publish_timestamp,Time))
-    filter_rsscategory = request.args.get('rsscategorie')
+    filter_rsscategory = request.args.get('categorie')
     if filter_rsscategory is None:
         pass
     elif filter_rsscategory == 'alles':
