@@ -13,6 +13,12 @@ from app import create_app, db
 from config import Config
 from app.models import RSSArticle, RSSCategory
 
+
+#Set up logging:
+log_file = os.path.join(os.path.dirname(__file__), 'py_log2.log')
+logging.basicConfig(level=logging.INFO, filename=log_file,filemode="a",
+                    format="%(asctime)s %(levelname)s %(message)s")
+
 #Open the dictionary containing all rss sources to check
 SOURCE_FILENAME = os.path.join(os.path.dirname(__file__), 'rss_sources.json')
 
@@ -74,8 +80,6 @@ with open(os.path.join(os.path.dirname(__file__), 'data', date[0], date[1], f'{(
     json.dump(data, data_file, indent=3)
 
 #Log the newfound entries
-logging.basicConfig(level=logging.INFO, filename=os.path.join(os.path.dirname(__file__), 'py_log.log'),filemode="a",
-                    format="%(asctime)s %(levelname)s %(message)s")
 logging.info(f'We have found {newfound_entries} new RSS entries.')
 
 
@@ -106,14 +110,44 @@ with app.app_context():
     for entry in total_new:
         article = RSSArticle.query.filter_by(link=entry["link"]).first()
         category = RSSCategory.query.filter_by(link=entry["title_detail"]["base"]).first()
-        article.rsscategories.append(category)
-        current = current_app.elasticsearch.get(index='rss_article', id=str(article.id))
-        try:
-            current_app.elasticsearch.update(index='rss_article', id=str(article.id), doc={'category': f'{current["_source"]["category"]} | {category.title}'})
-        except KeyError:
-            current_app.elasticsearch.update(index='rss_article', id=str(article.id), doc={'category': f'{category.title}'})
 
-    db.session.commit()
+        if not article:
+            logging.warning(f"Article not found for link: {entry['link']}")
+            continue
+        if not category:
+            logging.warning(f"Category not found for link: {entry['title_detail']['base']}")
+            continue
+
+        logging.info(f"Updating Article ID {article.id} with Category {category.title}")
+
+        # Log before appending
+        logging.debug(f"Before appending: {article.rsscategories}")
+        try:
+            article.rsscategories.append(category)
+            db.session.add(article)  # Ensure SQLAlchemy tracks the change
+            db.session.flush()  # Push changes immediately
+            db.session.commit()
+            logging.info(f"Successfully updated DB for Article ID {article.id} with Category {category.title}")
+        except Exception as e:
+            db.session.rollback()
+            logging.error(f"DB update failed for Article ID {article.id}: {e}")
+
+    for entry in total_new:
+        article = RSSArticle.query.filter_by(link=entry["link"]).first()
+        try:
+            current = current_app.elasticsearch.get(index='rss_article', id=str(article.id))
+            # Get existing category or default to an empty string
+            existing_category = current["_source"].get("category", "").strip()
+
+            # Concatenate the new category title, avoiding unnecessary " | "
+            new_category = f"{existing_category} | {category.title}" if existing_category else category.title
+
+            # Update Elasticsearch
+            current_app.elasticsearch.update(index='rss_article', id=str(article.id), doc={'category': new_category})
+
+        except Exception as e:
+            logging.error(f"Elasticsearch update failed for Article ID {article.id}: {e}")
+
 #Log upload of newfound entries
 logging.basicConfig(level=logging.INFO, filename=os.path.join(os.path.dirname(__file__), 'py_log.log'),filemode="a",
                     format="%(asctime)s %(levelname)s %(message)s")
